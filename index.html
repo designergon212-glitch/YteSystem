@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duyuru Panosu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .duyuru {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .duyuru:hover {
+            transform: translateY(-5px);
+        }
+
+        .duyuru-tarih {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .duyuru-baslik {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: #1e40af;
+        }
+
+        .duyuru-icerik {
+            color: #444;
+            font-size: 1.05rem;
+        }
+
+        .etiket {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+
+        .yeniekle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #2563eb;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .yeniekle:hover {
+            background: #1e40af;
+            transform: scale(1.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>📢 Duyuru Panosu</h1>
+        <p>Kurumumuzun Güncel Duyuruları</p>
+    </header>
+
+    <div class="container" id="duyurular">
+        <!-- JavaScript ile duyurular buraya eklenecek -->
+    </div>
+
+    <!-- Yeni Duyuru Ekle Butonu -->
+    <div class="yeniekle" onclick="yeniDuyuruEkle()">+</div>
+
+    <footer>
+        &copy; 2026 Basit Duyuru Sitesi
+    </footer>
+
+    <script>
+        // Örnek duyurular (localStorage ile kaydedilir)
+        let duyurular = JSON.parse(localStorage.getItem('duyurular')) || [
+            {
+                id: 1,
+                tarih: "06 Nisan 2026",
+                baslik: "Ramazan Bayramı Tatili",
+                icerik: "Bayram nedeniyle 8-12 Nisan 2026 tarihleri arasında kurumumuz kapalı olacaktır. Çalışanlarımıza iyi bayramlar dileriz.",
+                etiket: "Tatil"
+            },
+            {
+                id: 2,
+                tarih: "05 Nisan 2026",
+                baslik: "Personel Toplantısı",
+                icerik: "Haftalık personel toplantısı 8 Nisan Çarşamba günü saat 10:00'da toplantı salonunda yapılacaktır.",
+                etiket: "Toplantı"
+            }
+        ];
+
+        // Duyuruları ekrana bas
+        function duyurulariGoster() {
+            const container = document.getElementById('duyurular');
+            container.innerHTML = '';
+
+            duyurular.forEach(duyuru => {
+                const div = document.createElement('div');
+                div.className = 'duyuru';
+                div.innerHTML = `
+                    <div class="duyuru-tarih">${duyuru.tarih}</div>
+                    <div class="duyuru-baslik">${duyuru.baslik}</div>
+                    <div class="duyuru-icerik">${duyuru.icerik}</div>
+                    <span class="etiket">${duyuru.etiket}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Yeni duyuru ekleme
+        function yeniDuyuruEkle() {
+            const baslik = prompt("Duyuru Başlığı:");
+            if (!baslik) return;
+
+            const icerik = prompt("Duyuru İçeriği:");
+            if (!icerik) return;
+
+            const etiket = prompt("Etiket (ör: Tatil, Toplantı, Önemli):") || "Genel";
+
+            const yeniDuyuru = {
+                id: Date.now(),
+                tarih: new Date().toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' }),
+                baslik: baslik,
+                icerik: icerik,
+                etiket: etiket
+            };
+
+            duyurular.unshift(yeniDuyuru); // En başa ekle
+            localStorage.setItem('duyurular', JSON.stringify(duyurular));
+            duyurulariGoster();
+        }
+
+        // Sayfa yüklendiğinde duyuruları göster
+        window.onload = duyurulariGoster;
+    </script>
+
+</body>
+</html>
