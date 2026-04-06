@@ -3,274 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurum Duyuru & Takip Sistemi</title>
+    <title>Erkek Yurt - Kurum Takip Sistemi</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8fafc;
+            background: #f1f5f9;
             color: #1e2937;
         }
-
         header {
-            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
-            padding: 1.5rem;
+            padding: 2rem 1rem;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
+        .container { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
 
-        .nav {
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
             background: white;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
-
         .btn {
-            padding: 10px 20px;
+            padding: 14px 28px;
+            margin: 10px;
             border: none;
             border-radius: 8px;
+            font-size: 1.1rem;
             cursor: pointer;
-            font-size: 1rem;
             transition: 0.3s;
         }
-
-        .btn-talebe { background: #22c55e; color: white; }
-        .btn-hoca { background: #eab308; color: white; }
-        .btn-admin { background: #ef4444; color: white; }
-
-        .btn:hover { transform: translateY(-3px); }
-
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
+        .btn-primary { background: #2563eb; color: white; }
+        .btn-success { background: #16a34a; color: white; }
+        .btn-warning { background: #ca8a04; color: white; }
+        .btn-danger { background: #dc2626; color: white; }
 
         .section {
             background: white;
-            border-radius: 12px;
             padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
 
-        h2 {
-            margin-bottom: 20px;
-            color: #1e40af;
-            border-bottom: 2px solid #e0e7ff;
-            padding-bottom: 10px;
-        }
-
-        .duyuru, .program-item, .hoca-durum {
-            padding: 15px;
-            border-left: 5px solid #3b82f6;
-            background: #f8fafc;
-            margin-bottom: 15px;
-            border-radius: 8px;
-        }
-
-        .hoca-durum {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status {
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .status.toplantida { background: #fef3c7; color: #854d0e; }
-        .status.ders { background: #dbeafe; color: #1e40af; }
-        .status.musait { background: #d1fae5; color: #166534; }
-
-        .login-modal {
+        .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             align-items: center;
             justify-content: center;
             z-index: 1000;
         }
-
         .modal-content {
             background: white;
-            padding: 30px;
+            width: 90%;
+            max-width: 420px;
             border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
+            padding: 30px;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
-            border: 1px solid #cbd5e1;
+            border: 1px solid #94a3b8;
             border-radius: 8px;
         }
 
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #64748b;
-            margin-top: 50px;
+        .duyuru, .program-item, .hoca-item {
+            padding: 15px;
+            background: #f8fafc;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 5px solid #3b82f6;
+        }
+
+        .status {
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+        }
+        .status.musait { background:#d1fae5; color:#166534; }
+        .status.ders { background:#dbeafe; color:#1e40af; }
+        .status.toplantida { background:#fef3c7; color:#854d0e; }
+
+        .role-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🏫 Kurum Takip Sistemi</h1>
-        <p>Günlük Duyurular • Program • Hoca Durumları</p>
-    </header>
+<header>
+    <h1>🏠 Erkek Yurt Takip Sistemi</h1>
+    <p>Günlük Duyurular • Program • Hoca Durumları</p>
+</header>
 
-    <div class="nav">
-        <button class="btn btn-talebe" onclick="girisYap('talebe')">👨‍🎓 Talebe Girişi</button>
-        <button class="btn btn-hoca" onclick="girisYap('hoca')">👨‍🏫 Hoca Girişi</button>
-        <button class="btn btn-admin" onclick="girisYap('admin')">🔑 Admin Girişi</button>
+<div class="container">
+
+    <!-- Hoş Geldin Ekranı (Henüz giriş yapılmadı) -->
+    <div id="welcomeScreen">
+        <div class="hero">
+            <h2>Hoş Geldiniz</h2>
+            <p>Yurt içi iletişim ve takip platformu</p>
+            <button class="btn btn-primary" onclick="showRegisterModal()">Kayıt Ol</button>
+            <button class="btn btn-success" onclick="showLoginModal()">Giriş Yap</button>
+        </div>
     </div>
 
-    <div class="container">
+    <!-- Ana Ekran (Giriş yaptıktan sonra) -->
+    <div id="mainScreen" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>Hoş geldin, <span id="userName"></span> 
+                <span id="userRole" class="role-badge"></span>
+            </h2>
+            <button class="btn btn-danger" onclick="cikisYap()">Çıkış Yap</button>
+        </div>
 
-        <!-- Günlük Duyurular -->
         <div class="section">
             <h2>📢 Günlük Duyurular</h2>
-            <div id="duyurular"></div>
+            <div id="duyurularList"></div>
+            <div id="addDuyuruArea" style="display:none; margin-top:15px;">
+                <input type="text" id="duyuruBaslik" placeholder="Duyuru Başlığı">
+                <textarea id="duyuruIcerik" rows="3" placeholder="Duyuru içeriği..."></textarea>
+                <button class="btn btn-primary" onclick="duyuruEkle()">Duyuru Yayınla</button>
+            </div>
         </div>
 
-        <!-- Günlük Program -->
         <div class="section">
             <h2>📅 Bugünkü Program</h2>
-            <div id="program"></div>
+            <div id="programList"></div>
+            <div id="addProgramArea" style="display:none; margin-top:15px;">
+                <input type="text" id="programSaat" placeholder="Saat (örn: 09:00-10:30)">
+                <input type="text" id="programDers" placeholder="Ders Adı">
+                <input type="text" id="programSinif" placeholder="Sınıf / Yer">
+                <button class="btn btn-primary" onclick="programEkle()">Programa Ekle</button>
+            </div>
         </div>
 
-        <!-- Hocaların Durumu -->
         <div class="section">
             <h2>👨‍🏫 Hocaların Mevcut Durumu</h2>
-            <div id="hoca-durumlari"></div>
-        </div>
-
-    </div>
-
-    <!-- Giriş Modalı -->
-    <div class="login-modal" id="loginModal">
-        <div class="modal-content">
-            <h2 id="modalTitle">Giriş Yap</h2>
-            <input type="text" id="kullaniciAdi" placeholder="Kullanıcı Adı">
-            <input type="password" id="sifre" placeholder="Şifre">
-            <button class="btn" style="width:100%; margin-top:15px; background:#1e40af; color:white;" onclick="girisKontrol()">Giriş Yap</button>
-            <button class="btn" style="width:100%; margin-top:10px; background:#64748b; color:white;" onclick="modalKapat()">İptal</button>
+            <div id="hocaList"></div>
         </div>
     </div>
+</div>
 
-    <div class="footer">
-        Kurum Duyuru & Takip Sistemi © 2026
+<!-- Kayıt Modal -->
+<div class="modal" id="registerModal">
+    <div class="modal-content">
+        <h2>Kayıt Ol</h2>
+        <select id="kayitTipi">
+            <option value="ogrenci">Öğrenci</option>
+            <option value="ogretmen">Öğretmen</option>
+        </select>
+        <input type="text" id="kayitAd" placeholder="Ad Soyad">
+        <input type="email" id="kayitEmail" placeholder="Gmail adresi">
+        <input type="tel" id="kayitTelefon" placeholder="Telefon numarası">
+        <input type="password" id="kayitSifre" placeholder="Güçlü şifre oluşturun">
+        <button class="btn btn-success" onclick="kayitOl()" style="width:100%; margin-top:10px;">Kayıt Ol</button>
+        <button class="btn" style="width:100%; margin-top:8px; background:#64748b;" onclick="modalKapat('registerModal')">İptal</button>
+        
+        <div style="margin-top:20px; text-align:center;">
+            <button onclick="fakeGoogleSignIn()" style="background:#fff; border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer;">
+                Google ile Kayıt Ol
+            </button>
+        </div>
     </div>
+</div>
 
-    <script>
-        // Örnek Veriler
-        let duyurular = [
-            { tarih: "06 Nisan 2026", baslik: "Yarınki Sınav Ertelendi", icerik: "2. sınıf ara sınavı 8 Nisan'a ertelenmiştir." },
-            { tarih: "05 Nisan 2026", baslik: "Kütüphane Çalışma Saatleri", icerik: "Kütüphane bu hafta her gün 08:00 - 22:00 arası açıktır." }
-        ];
+<!-- Giriş Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <h2>Giriş Yap</h2>
+        <select id="girisTipi">
+            <option value="ogrenci">Öğrenci</option>
+            <option value="ogretmen">Öğretmen</option>
+            <option value="admin">Admin</option>
+        </select>
+        <input type="text" id="girisKullanici" placeholder="Ad Soyad veya Kullanıcı Adı">
+        <input type="password" id="girisSifre" placeholder="Şifre">
+        <button class="btn btn-primary" onclick="girisYap()" style="width:100%; margin-top:15px;">Giriş Yap</button>
+        <button class="btn" style="width:100%; margin-top:8px; background:#64748b;" onclick="modalKapat('loginModal')">İptal</button>
+    </div>
+</div>
 
-        let program = [
-            { saat: "09:00 - 10:30", ders: "Matematik", hoca: "Mustafa Hoca", sinif: "A Sınıfı" },
-            { saat: "10:45 - 12:15", ders: "Fizik", hoca: "Ayşe Hoca", sinif: "B Sınıfı" },
-            { saat: "13:30 - 15:00", ders: "Kimya", hoca: "Mehmet Hoca", sinif: "Lab 1" }
-        ];
+<script>
+// ====================== VERİLER ======================
+let users = JSON.parse(localStorage.getItem('users')) || [];
+let duyurular = JSON.parse(localStorage.getItem('duyurular')) || [
+    {tarih: "06.04.2026", baslik: "Yemek Saati Değişikliği", icerik: "Bu akşam yemek saati 19:30 olarak güncellenmiştir."}
+];
 
-        let hocalar = [
-            { ad: "Mustafa Hoca", durum: "toplantida", aciklama: "Toplantıda (Yönetim Kurulu)" },
-            { ad: "Ayşe Hoca", durum: "ders", aciklama: "Fizik dersi - B Sınıfı" },
-            { ad: "Mehmet Hoca", durum: "musait", aciklama: "Ofisinde" },
-            { ad: "Zeynep Hoca", durum: "musait", aciklama: "Öğrenci görüşmesi yapıyor" }
-        ];
+let program = JSON.parse(localStorage.getItem('program')) || [
+    {saat: "09:00-10:30", ders: "Matematik", sinif: "A Sınıfı"}
+];
 
-        let mevcutKullanici = null;
+let hocalar = [
+    {ad: "Mustafa Hoca", durum: "ders", aciklama: "Matematik dersi veriyor"},
+    {ad: "Ahmet Hoca", durum: "musait", aciklama: "Ofisinde"},
+    {ad: "Mehmet Hoca", durum: "toplantida", aciklama: "Yönetim toplantısı"}
+];
 
-        // Giriş Modalını Aç
-        function girisYap(rol) {
-            mevcutKullanici = { rol: rol };
-            document.getElementById('modalTitle').textContent = 
-                rol === 'talebe' ? '👨‍🎓 Talebe Girişi' :
-                rol === 'hoca' ? '👨‍🏫 Hoca Girişi' : '🔑 Admin Girişi';
-            
-            document.getElementById('loginModal').style.display = 'flex';
+let currentUser = null;
+
+// ====================== FONKSİYONLAR ======================
+function showRegisterModal() {
+    document.getElementById('registerModal').style.display = 'flex';
+}
+
+function showLoginModal() {
+    document.getElementById('loginModal').style.display = 'flex';
+}
+
+function modalKapat(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+// Fake Google Kayıt
+function fakeGoogleSignIn() {
+    const ad = prompt("Google hesabınızdan gelen ad soyad nedir?");
+    if (!ad) return;
+    const email = prompt("Google e-posta adresiniz?", ad.toLowerCase().replace(" ", "") + "@gmail.com");
+    
+    const yeniUser = {
+        id: Date.now(),
+        tip: document.getElementById('kayitTipi').value,
+        ad: ad,
+        email: email,
+        telefon: "",
+        sifre: "google_" + Date.now(), // simüle
+        google: true
+    };
+    
+    users.push(yeniUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    alert("Google ile kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+    modalKapat('registerModal');
+    showLoginModal();
+}
+
+// Kayıt Ol
+function kayitOl() {
+    const tip = document.getElementById('kayitTipi').value;
+    const ad = document.getElementById('kayitAd').value.trim();
+    const email = document.getElementById('kayitEmail').value.trim();
+    const telefon = document.getElementById('kayitTelefon').value.trim();
+    const sifre = document.getElementById('kayitSifre').value.trim();
+
+    if (!ad || (!email && !telefon) || !sifre) {
+        alert("Lütfen gerekli alanları doldurun.");
+        return;
+    }
+
+    const yeniUser = {
+        id: Date.now(),
+        tip: tip,
+        ad: ad,
+        email: email,
+        telefon: telefon,
+        sifre: sifre,
+        google: false
+    };
+
+    users.push(yeniUser);
+    localStorage.setItem('users', JSON.stringify(users));
+    alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz.");
+    modalKapat('registerModal');
+    showLoginModal();
+}
+
+// Giriş Yap
+function girisYap() {
+    const tip = document.getElementById('girisTipi').value;
+    const kullanici = document.getElementById('girisKullanici').value.trim();
+    const sifre = document.getElementById('girisSifre').value.trim();
+
+    if (tip === "admin") {
+        if (kullanici === "Yusuf Taha Ergön" && sifre === "erg@n66YTE") {
+            currentUser = { ad: "Yusuf Taha Ergön", tip: "admin" };
+            loginBasarili();
+            return;
         }
+    }
 
-        function modalKapat() {
-            document.getElementById('loginModal').style.display = 'none';
-            document.getElementById('kullaniciAdi').value = '';
-            document.getElementById('sifre').value = '';
-        }
+    // Normal kullanıcı kontrolü
+    const bulunan = users.find(u => 
+        (u.ad === kullanici || u.email === kullanici) && 
+        u.sifre === sifre && 
+        u.tip === tip
+    );
 
-        // Basit giriş kontrolü (gerçek projede backend ile yapılacak)
-        function girisKontrol() {
-            const kullanici = document.getElementById('kullaniciAdi').value;
-            const sifre = document.getElementById('sifre').value;
+    if (bulunan) {
+        currentUser = bulunan;
+        loginBasarili();
+    } else {
+        alert("Kullanıcı adı/şifre hatalı veya rol yanlış seçildi!");
+    }
+}
 
-            if (kullanici && sifre) {
-                alert(`${mevcutKullanici.rol.toUpperCase()} olarak giriş yapıldı!\nKullanıcı: ${kullanici}`);
-                modalKapat();
-                
-                // İleride buraya rol bazlı farklı sayfalar veya menüler eklenebilir
-            } else {
-                alert("Kullanıcı adı ve şifre giriniz!");
-            }
-        }
+function loginBasarili() {
+    modalKapat('loginModal');
+    document.getElementById('welcomeScreen').style.display = 'none';
+    document.getElementById('mainScreen').style.display = 'block';
 
-        // Sayfayı doldur
-        function sayfayiDoldur() {
-            // Duyurular
-            const duyuruDiv = document.getElementById('duyurular');
-            duyuruDiv.innerHTML = '';
-            duyurular.forEach(d => {
-                duyuruDiv.innerHTML += `
-                    <div class="duyuru">
-                        <strong>${d.tarih}</strong><br>
-                        <b>${d.baslik}</b><br>
-                        ${d.icerik}
-                    </div>`;
-            });
+    document.getElementById('userName').textContent = currentUser.ad;
+    
+    const roleBadge = document.getElementById('userRole');
+    roleBadge.textContent = currentUser.tip === 'admin' ? 'Admin' : 
+                            currentUser.tip === 'ogretmen' ? 'Öğretmen' : 'Öğrenci';
+    roleBadge.style.background = currentUser.tip === 'admin' ? '#dc2626' : 
+                                 currentUser.tip === 'ogretmen' ? '#ca8a04' : '#16a34a';
+    roleBadge.style.color = 'white';
 
-            // Program
-            const programDiv = document.getElementById('program');
-            programDiv.innerHTML = '';
-            program.forEach(p => {
-                programDiv.innerHTML += `
-                    <div class="duyuru">
-                        <strong>${p.saat}</strong> — ${p.ders}<br>
-                        <small>Hoca: ${p.hoca} | ${p.sinif}</small>
-                    </div>`;
-            });
+    // Yetki kontrolü
+    document.getElementById('addDuyuruArea').style.display = 
+        (currentUser.tip === 'ogretmen' || currentUser.tip === 'admin') ? 'block' : 'none';
+    
+    document.getElementById('addProgramArea').style.display = 
+        (currentUser.tip === 'ogretmen' || currentUser.tip === 'admin') ? 'block' : 'none';
 
-            // Hoca Durumları
-            const hocaDiv = document.getElementById('hoca-durumlari');
-            hocaDiv.innerHTML = '';
-            hocalar.forEach(h => {
-                let statusClass = '';
-                if (h.durum === 'toplantida') statusClass = 'toplantida';
-                else if (h.durum === 'ders') statusClass = 'ders';
-                else statusClass = 'musait';
+    sayfayiYenile();
+}
 
-                hocaDiv.innerHTML += `
-                    <div class="hoca-durum">
-                        <div><strong>${h.ad}</strong></div>
-                        <div class="status ${statusClass}">${h.aciklama}</div>
-                    </div>`;
-            });
-        }
+function cikisYap() {
+    if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+        currentUser = null;
+        document.getElementById('mainScreen').style.display = 'none';
+        document.getElementById('welcomeScreen').style.display = 'block';
+    }
+}
 
-        // Sayfa yüklendiğinde
-        window.onload = sayfayiDoldur;
-    </script>
+// ====================== ANA EKRAN İÇERİK ======================
+function sayfayiYenile() {
+    // Duyurular
+    let html = '';
+    duyurular.forEach(d => {
+        html += `<div class="duyuru"><strong>${d.tarih}</strong><br><b>${d.baslik}</b><br>${d.icerik}</div>`;
+    });
+    document.getElementById('duyurularList').innerHTML = html || '<p>Henüz duyuru yok.</p>';
+
+    // Program
+    html = '';
+    program.forEach(p => {
+        html += `<div class="program-item"><strong>${p.saat}</strong> — ${p.ders} (${p.sinif})</div>`;
+    });
+    document.getElementById('programList').innerHTML = html || '<p>Henüz program yok.</p>';
+
+    // Hocalar
+    html = '';
+    hocalar.forEach(h => {
+        let cls = h.durum === 'musait' ? 'musait' : h.durum === 'ders' ? 'ders' : 'toplantida';
+        html += `
+            <div class="hoca-item">
+                <strong>${h.ad}</strong> 
+                <span class="status ${cls}">${h.aciklama}</span>
+            </div>`;
+    });
+    document.getElementById('hocaList').innerHTML = html;
+}
+
+function duyuruEkle() {
+    const baslik = document.getElementById('duyuruBaslik').value.trim();
+    const icerik = document.getElementById('duyuruIcerik').value.trim();
+    if (!baslik || !icerik) return alert("Başlık ve içerik giriniz.");
+
+    duyurular.unshift({
+        tarih: new Date().toLocaleDateString('tr-TR'),
+        baslik: baslik,
+        icerik: icerik
+    });
+
+    localStorage.setItem('duyurular', JSON.stringify(duyurular));
+    sayfayiYenile();
+    document.getElementById('duyuruBaslik').value = '';
+    document.getElementById('duyuruIcerik').value = '';
+}
+
+function programEkle() {
+    const saat = document.getElementById('programSaat').value.trim();
+    const ders = document.getElementById('programDers').value.trim();
+    const sinif = document.getElementById('programSinif').value.trim();
+    if (!saat || !ders) return alert("Saat ve ders giriniz.");
+
+    program.unshift({ saat, ders, sinif: sinif || "Belirtilmedi" });
+    localStorage.setItem('program', JSON.stringify(program));
+    sayfayiYenile();
+    document.getElementById('programSaat').value = '';
+    document.getElementById('programDers').value = '';
+    document.getElementById('programSinif').value = '';
+}
+
+// Sayfa yüklendiğinde
+window.onload = () => {
+    // Eğer daha önce giriş yapılmışsa (refresh sonrası) tekrar yükle
+    // Şimdilik basit tuttuk, istersen localStorage'dan currentUser da saklayabiliriz.
+};
+</script>
+
 </body>
 </html>
