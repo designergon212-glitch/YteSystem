@@ -3,191 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Duyuru Panosu</title>
+    <title>Kurum Duyuru & Takip Sistemi</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-            line-height: 1.6;
+            background-color: #f8fafc;
+            color: #1e2937;
         }
 
         header {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
             color: white;
-            padding: 20px;
+            padding: 1.5rem;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        h1 {
-            font-size: 2.2rem;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 0 15px;
-        }
-
-        .duyuru {
+        .nav {
             background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-
-        .duyuru:hover {
-            transform: translateY(-5px);
-        }
-
-        .duyuru-tarih {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-
-        .duyuru-baslik {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: #1e40af;
-        }
-
-        .duyuru-icerik {
-            color: #444;
-            font-size: 1.05rem;
-        }
-
-        .etiket {
-            display: inline-block;
-            background: #eff6ff;
-            color: #1e40af;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-top: 12px;
-        }
-
-        .yeniekle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #2563eb;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            font-size: 30px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             display: flex;
-            align-items: center;
             justify-content: center;
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 1rem;
             transition: 0.3s;
         }
 
-        .yeniekle:hover {
-            background: #1e40af;
-            transform: scale(1.1);
+        .btn-talebe { background: #22c55e; color: white; }
+        .btn-hoca { background: #eab308; color: white; }
+        .btn-admin { background: #ef4444; color: white; }
+
+        .btn:hover { transform: translateY(-3px); }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
         }
 
-        footer {
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1e40af;
+            border-bottom: 2px solid #e0e7ff;
+            padding-bottom: 10px;
+        }
+
+        .duyuru, .program-item, .hoca-durum {
+            padding: 15px;
+            border-left: 5px solid #3b82f6;
+            background: #f8fafc;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .hoca-durum {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status.toplantida { background: #fef3c7; color: #854d0e; }
+        .status.ders { background: #dbeafe; color: #1e40af; }
+        .status.musait { background: #d1fae5; color: #166534; }
+
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+        }
+
+        .footer {
             text-align: center;
             padding: 20px;
             color: #64748b;
-            font-size: 0.9rem;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>📢 Duyuru Panosu</h1>
-        <p>Kurumumuzun Güncel Duyuruları</p>
+        <h1>🏫 Kurum Takip Sistemi</h1>
+        <p>Günlük Duyurular • Program • Hoca Durumları</p>
     </header>
 
-    <div class="container" id="duyurular">
-        <!-- JavaScript ile duyurular buraya eklenecek -->
+    <div class="nav">
+        <button class="btn btn-talebe" onclick="girisYap('talebe')">👨‍🎓 Talebe Girişi</button>
+        <button class="btn btn-hoca" onclick="girisYap('hoca')">👨‍🏫 Hoca Girişi</button>
+        <button class="btn btn-admin" onclick="girisYap('admin')">🔑 Admin Girişi</button>
     </div>
 
-    <!-- Yeni Duyuru Ekle Butonu -->
-    <div class="yeniekle" onclick="yeniDuyuruEkle()">+</div>
+    <div class="container">
 
-    <footer>
-        &copy; 2026 Basit Duyuru Sitesi
-    </footer>
+        <!-- Günlük Duyurular -->
+        <div class="section">
+            <h2>📢 Günlük Duyurular</h2>
+            <div id="duyurular"></div>
+        </div>
+
+        <!-- Günlük Program -->
+        <div class="section">
+            <h2>📅 Bugünkü Program</h2>
+            <div id="program"></div>
+        </div>
+
+        <!-- Hocaların Durumu -->
+        <div class="section">
+            <h2>👨‍🏫 Hocaların Mevcut Durumu</h2>
+            <div id="hoca-durumlari"></div>
+        </div>
+
+    </div>
+
+    <!-- Giriş Modalı -->
+    <div class="login-modal" id="loginModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Giriş Yap</h2>
+            <input type="text" id="kullaniciAdi" placeholder="Kullanıcı Adı">
+            <input type="password" id="sifre" placeholder="Şifre">
+            <button class="btn" style="width:100%; margin-top:15px; background:#1e40af; color:white;" onclick="girisKontrol()">Giriş Yap</button>
+            <button class="btn" style="width:100%; margin-top:10px; background:#64748b; color:white;" onclick="modalKapat()">İptal</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        Kurum Duyuru & Takip Sistemi © 2026
+    </div>
 
     <script>
-        // Örnek duyurular (localStorage ile kaydedilir)
-        let duyurular = JSON.parse(localStorage.getItem('duyurular')) || [
-            {
-                id: 1,
-                tarih: "06 Nisan 2026",
-                baslik: "Ramazan Bayramı Tatili",
-                icerik: "Bayram nedeniyle 8-12 Nisan 2026 tarihleri arasında kurumumuz kapalı olacaktır. Çalışanlarımıza iyi bayramlar dileriz.",
-                etiket: "Tatil"
-            },
-            {
-                id: 2,
-                tarih: "05 Nisan 2026",
-                baslik: "Personel Toplantısı",
-                icerik: "Haftalık personel toplantısı 8 Nisan Çarşamba günü saat 10:00'da toplantı salonunda yapılacaktır.",
-                etiket: "Toplantı"
-            }
+        // Örnek Veriler
+        let duyurular = [
+            { tarih: "06 Nisan 2026", baslik: "Yarınki Sınav Ertelendi", icerik: "2. sınıf ara sınavı 8 Nisan'a ertelenmiştir." },
+            { tarih: "05 Nisan 2026", baslik: "Kütüphane Çalışma Saatleri", icerik: "Kütüphane bu hafta her gün 08:00 - 22:00 arası açıktır." }
         ];
 
-        // Duyuruları ekrana bas
-        function duyurulariGoster() {
-            const container = document.getElementById('duyurular');
-            container.innerHTML = '';
+        let program = [
+            { saat: "09:00 - 10:30", ders: "Matematik", hoca: "Mustafa Hoca", sinif: "A Sınıfı" },
+            { saat: "10:45 - 12:15", ders: "Fizik", hoca: "Ayşe Hoca", sinif: "B Sınıfı" },
+            { saat: "13:30 - 15:00", ders: "Kimya", hoca: "Mehmet Hoca", sinif: "Lab 1" }
+        ];
 
-            duyurular.forEach(duyuru => {
-                const div = document.createElement('div');
-                div.className = 'duyuru';
-                div.innerHTML = `
-                    <div class="duyuru-tarih">${duyuru.tarih}</div>
-                    <div class="duyuru-baslik">${duyuru.baslik}</div>
-                    <div class="duyuru-icerik">${duyuru.icerik}</div>
-                    <span class="etiket">${duyuru.etiket}</span>
-                `;
-                container.appendChild(div);
+        let hocalar = [
+            { ad: "Mustafa Hoca", durum: "toplantida", aciklama: "Toplantıda (Yönetim Kurulu)" },
+            { ad: "Ayşe Hoca", durum: "ders", aciklama: "Fizik dersi - B Sınıfı" },
+            { ad: "Mehmet Hoca", durum: "musait", aciklama: "Ofisinde" },
+            { ad: "Zeynep Hoca", durum: "musait", aciklama: "Öğrenci görüşmesi yapıyor" }
+        ];
+
+        let mevcutKullanici = null;
+
+        // Giriş Modalını Aç
+        function girisYap(rol) {
+            mevcutKullanici = { rol: rol };
+            document.getElementById('modalTitle').textContent = 
+                rol === 'talebe' ? '👨‍🎓 Talebe Girişi' :
+                rol === 'hoca' ? '👨‍🏫 Hoca Girişi' : '🔑 Admin Girişi';
+            
+            document.getElementById('loginModal').style.display = 'flex';
+        }
+
+        function modalKapat() {
+            document.getElementById('loginModal').style.display = 'none';
+            document.getElementById('kullaniciAdi').value = '';
+            document.getElementById('sifre').value = '';
+        }
+
+        // Basit giriş kontrolü (gerçek projede backend ile yapılacak)
+        function girisKontrol() {
+            const kullanici = document.getElementById('kullaniciAdi').value;
+            const sifre = document.getElementById('sifre').value;
+
+            if (kullanici && sifre) {
+                alert(`${mevcutKullanici.rol.toUpperCase()} olarak giriş yapıldı!\nKullanıcı: ${kullanici}`);
+                modalKapat();
+                
+                // İleride buraya rol bazlı farklı sayfalar veya menüler eklenebilir
+            } else {
+                alert("Kullanıcı adı ve şifre giriniz!");
+            }
+        }
+
+        // Sayfayı doldur
+        function sayfayiDoldur() {
+            // Duyurular
+            const duyuruDiv = document.getElementById('duyurular');
+            duyuruDiv.innerHTML = '';
+            duyurular.forEach(d => {
+                duyuruDiv.innerHTML += `
+                    <div class="duyuru">
+                        <strong>${d.tarih}</strong><br>
+                        <b>${d.baslik}</b><br>
+                        ${d.icerik}
+                    </div>`;
+            });
+
+            // Program
+            const programDiv = document.getElementById('program');
+            programDiv.innerHTML = '';
+            program.forEach(p => {
+                programDiv.innerHTML += `
+                    <div class="duyuru">
+                        <strong>${p.saat}</strong> — ${p.ders}<br>
+                        <small>Hoca: ${p.hoca} | ${p.sinif}</small>
+                    </div>`;
+            });
+
+            // Hoca Durumları
+            const hocaDiv = document.getElementById('hoca-durumlari');
+            hocaDiv.innerHTML = '';
+            hocalar.forEach(h => {
+                let statusClass = '';
+                if (h.durum === 'toplantida') statusClass = 'toplantida';
+                else if (h.durum === 'ders') statusClass = 'ders';
+                else statusClass = 'musait';
+
+                hocaDiv.innerHTML += `
+                    <div class="hoca-durum">
+                        <div><strong>${h.ad}</strong></div>
+                        <div class="status ${statusClass}">${h.aciklama}</div>
+                    </div>`;
             });
         }
 
-        // Yeni duyuru ekleme
-        function yeniDuyuruEkle() {
-            const baslik = prompt("Duyuru Başlığı:");
-            if (!baslik) return;
-
-            const icerik = prompt("Duyuru İçeriği:");
-            if (!icerik) return;
-
-            const etiket = prompt("Etiket (ör: Tatil, Toplantı, Önemli):") || "Genel";
-
-            const yeniDuyuru = {
-                id: Date.now(),
-                tarih: new Date().toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' }),
-                baslik: baslik,
-                icerik: icerik,
-                etiket: etiket
-            };
-
-            duyurular.unshift(yeniDuyuru); // En başa ekle
-            localStorage.setItem('duyurular', JSON.stringify(duyurular));
-            duyurulariGoster();
-        }
-
-        // Sayfa yüklendiğinde duyuruları göster
-        window.onload = duyurulariGoster;
+        // Sayfa yüklendiğinde
+        window.onload = sayfayiDoldur;
     </script>
-
 </body>
 </html>
